@@ -1,0 +1,67 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Dec  2 15:53:48 2019
+
+@author: hannahwhitehurst
+"""
+
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Oct 14 12:21:48 2019
+
+@author: hannahwhitehurst
+"""
+
+import os
+import pandas
+import glob
+
+
+##test for many circles
+os.chdir("/path/to/directory/with/pictures/")
+
+new_names_csv = "/path/to/directory/with/files/to/rename/<new_file_names.csv>"
+mypath= "/path/to/directory/with/files/to/rename/"
+dirs = os.listdir(mypath)
+
+
+
+#create list of all pics in directory
+current_files = glob.glob('*.jpg')
+current_files.sort() #if prefer sort by time, include this in the parenthesis: key=os.path.getmtime
+print("\n".join(current_files))
+ 
+#read picture file names from csv in directory.        
+list_files = pandas.read_csv(new_names_csv)
+newnames = list_files.new_names.tolist() #new_names refers to the column name in the csv which contains the new file names.
+
+
+#ensure that there are the same number of file names as files provided.
+if len(newnames) != len(current_files):
+    print("Filenames do not list the same number of files as pictures counted. Please review and edit.")
+    exit()
+else:
+    print("Filenames list the same number of files as pictures counted. Moving forward with renaming files.")
+#rename files
+def main(): 
+    i = 0
+      
+    for filename in current_files: 
+        dst = newnames[i] + ".jpg"
+        src = current_files[i]
+        #dst ='xyz'+ dst 
+          
+        # rename() function will 
+        # rename all the files 
+        os.rename(src, dst) 
+        i += 1
+  
+# Driver Code 
+if __name__ == '__main__': 
+      
+    # Calling main() function 
+    main() 
+
+
